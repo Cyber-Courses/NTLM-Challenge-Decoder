@@ -109,7 +109,6 @@ target_field_types[7] = "Server Timestamp"
 
 def main():
     st_raw = sys.stdin.read()
-    print(st_raw)
     try:
         st = base64.b64decode(st_raw)
     except Exception as e:
@@ -135,7 +134,7 @@ def main():
         pretty_print_response(st)
     else:
         print("Unknown message structure.  Have a raw (hex-encoded) message:")
-        print(st.encode("hex"))
+        print(st)
 
 
 def opt_str_struct(name, st, offset):
@@ -149,7 +148,7 @@ def opt_str_struct(name, st, offset):
 def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
-        print("%s: '%s'" % (name, clean_str(nxt)))
+        print("%s: '%s'" % (name, clean_str(nxt).decode('unicode_escape')))
     else:
         print("%s: [omitted]" % name)
 
@@ -168,7 +167,7 @@ def pretty_print_request(st):
 def pretty_print_challenge(st):
     hdr_tup = struct.unpack("<hhiiQ", st[12:32])
 
-    print("Target Name: %s" % StrStruct(hdr_tup[0:3], st))
+    print("Target Name: %s" % StrStruct(hdr_tup[0:3], st.decode('unicode_escape')))
     print("Challenge: 0x%x" % hdr_tup[4])
 
     flags = hdr_tup[3]
@@ -194,7 +193,7 @@ def pretty_print_challenge(st):
             rec_type = target_field_types[rec_type_id]
             rec_sz = rec_hdr[1]
             subst = raw[pos+4 : pos+4+rec_sz]
-            print("    %s (%d): %s" % (rec_type, rec_type_id, subst))
+            print("    %s (%d): %s" % (rec_type, rec_type_id, subst.decode('unicode_escape')))
             pos += 4 + rec_sz
 
     opt_inline_str("OS Ver", st, 48, 8)
@@ -205,11 +204,11 @@ def pretty_print_challenge(st):
 def pretty_print_response(st):
     hdr_tup = struct.unpack("<hhihhihhihhihhi", st[12:52])
 
-    print("LM Resp: %s" % StrStruct(hdr_tup[0:3], st))
-    print("NTLM Resp: %s" % StrStruct(hdr_tup[3:6], st))
-    print("Target Name: %s" % StrStruct(hdr_tup[6:9], st))
-    print("User Name: %s" % StrStruct(hdr_tup[9:12], st))
-    print("Host Name: %s" % StrStruct(hdr_tup[12:15], st))
+    print("LM Resp: %s" % StrStruct(hdr_tup[0:3], st.decode('unicode_escape')))
+    print("NTLM Resp: %s" % StrStruct(hdr_tup[3:6], st.decode('unicode_escape')))
+    print("Target Name: %s" % StrStruct(hdr_tup[6:9], st.decode('unicode_escape')))
+    print("User Name: %s" % StrStruct(hdr_tup[9:12], st.decode('unicode_escape')))
+    print("Host Name: %s" % StrStruct(hdr_tup[12:15], st.decode('unicode_escape')))
 
     opt_str_struct("Session Key", st, 52)
     opt_inline_str("OS Ver", st, 64, 8)
