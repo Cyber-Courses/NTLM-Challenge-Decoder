@@ -87,7 +87,7 @@ class StrStruct(object):
         
     def __str__(self):
         st = "%s'%s' [%s] (%db @%d)" % ('u' if self.utf16 else '',
-                                        clean_str(self.string),
+                                        self.string,
                                         self.raw,
                                         self.length, self.offset)
         if self.alloc != self.length:
