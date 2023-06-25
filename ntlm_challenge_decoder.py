@@ -79,7 +79,7 @@ class StrStruct(object):
         self.utf16 = False
 
         if len(self.raw) >= 2 and self.raw[1] == '\0':
-            self.string = self.raw.decode('utf-16')
+            self.string = self.raw.('utf-16')
             self.utf16 = True
         else:
             self.string = self.raw
@@ -142,7 +142,7 @@ def opt_str_struct(name, st, offset):
     nxt = st[offset:offset+8]
     if len(nxt) == 8:
         hdr_tup = struct.unpack("<hhi", nxt)
-        print("%s: %s" % (name, StrStruct(hdr_tup, st.decode())))
+        print("%s: %s" % (name, StrStruct(hdr_tup, st.decode('unicode_escape'))))
     else:
         print("%s: [omitted]" % name)
 
