@@ -79,7 +79,7 @@ class StrStruct(object):
         self.utf16 = False
 
         if len(self.raw) >= 2 and self.raw[1] == '\0':
-            self.string = self.raw.('utf-16')
+            self.string = self.raw.decode('utf-16')
             self.utf16 = True
         else:
             self.string = self.raw
