@@ -112,6 +112,7 @@ def main():
     try:
         st = base64.b64decode(st_raw)
         print(st)
+        print(st[:8])
     except e:
         print("Input is not a valid base64-encoded string")
         return
