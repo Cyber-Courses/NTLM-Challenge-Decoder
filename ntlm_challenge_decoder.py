@@ -83,7 +83,7 @@ class StrStruct(object):
             self.string = self.raw.decode('unicode_escape')
             self.utf16 = True
         else:
-            self.string = self.raw
+            self.string = self.raw.raw.decode('unicode_escape')
         
     def __str__(self):
         st = "%s'%s' [%s] (%db @%d)" % ('u' if self.utf16 else '',
