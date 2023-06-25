@@ -113,7 +113,7 @@ def main():
     try:
         st1 = base64.b64decode(st_raw)
         print(st1)
-        st2 = base64.b64decode(st_raw).decode('utf-16')
+        st2 = base64.b64decode(st_raw).decode('ascii')
         print(st2)
         st = base64.b64decode(st_raw).decode('utf-8')
         print(st)
