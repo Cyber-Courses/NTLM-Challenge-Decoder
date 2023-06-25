@@ -110,14 +110,14 @@ target_field_types[7] = "Server Timestamp"
 def main():
     st_raw = sys.argv[1]
     try:
-        st = base64.b64decode(st_raw)
+        st = base64.b64decode(st_raw).decode('utf-8')
         print(st)
         print(st[:8])
     except e:
         print("Input is not a valid base64-encoded string")
         return
 
-    if st[:8] == "NTLMSSP\x00":
+    if st[:8] == "NTLMSSP\0":
         print("Found NTLMSSP header")
     else:
         print("NTLMSSP header not found at start of input string")
