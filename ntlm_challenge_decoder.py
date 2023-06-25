@@ -112,19 +112,19 @@ def main():
     try:
         st = base64.b64decode(st_raw)
     except e:
-        print "Input is not a valid base64-encoded string"
+        print("Input is not a valid base64-encoded string")
         return
 
     if st[:8] == "NTLMSSP\0":
-        print "Found NTLMSSP header"
+        print("Found NTLMSSP header")
     else:
-        print "NTLMSSP header not found at start of input string"
+        print("NTLMSSP header not found at start of input string")
         return
 
     ver_tup = struct.unpack("<i", st[8:12])
     ver = ver_tup[0]
 
-    print "Msg Type: %d (%s)" % (ver, msg_types[ver])
+    print("Msg Type: %d (%s)" % (ver, msg_types[ver]))
 
     if ver == 1:
         pretty_print_request(st)
@@ -133,24 +133,24 @@ def main():
     elif ver == 3:
         pretty_print_response(st)
     else:
-        print "Unknown message structure.  Have a raw (hex-encoded) message:"
-        print st.encode("hex")
+        print("Unknown message structure.  Have a raw (hex-encoded) message:")
+        print(st.encode("hex"))
 
 
 def opt_str_struct(name, st, offset):
     nxt = st[offset:offset+8]
     if len(nxt) == 8:
         hdr_tup = struct.unpack("<hhi", nxt)
-        print "%s: %s" % (name, StrStruct(hdr_tup, st))
+        print("%s: %s" % (name, StrStruct(hdr_tup, st)))
     else:
-        print "%s: [omitted]" % name
+        print("%s: [omitted]" % name)
 
 def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
-        print "%s: '%s'" % (name, clean_str(nxt))
+        print("%s: '%s'" % (name, clean_str(nxt)))
     else:
-        print "%s: [omitted]" % name
+        print("%s: [omitted]" % name)
 
 def pretty_print_request(st):
     hdr_tup = struct.unpack("<i", st[12:16])
@@ -161,14 +161,14 @@ def pretty_print_request(st):
 
     opt_inline_str("OS Ver", st, 32, 8)
 
-    print "Flags: 0x%x [%s]" % (flags, flags_str(flags))
+    print("Flags: 0x%x [%s]" % (flags, flags_str(flags)))
 
 
 def pretty_print_challenge(st):
     hdr_tup = struct.unpack("<hhiiQ", st[12:32])
 
-    print "Target Name: %s" % StrStruct(hdr_tup[0:3], st)
-    print "Challenge: 0x%x" % hdr_tup[4]
+    print("Target Name: %s" % StrStruct(hdr_tup[0:3], st))
+    print("Challenge: 0x%x" % hdr_tup[4])
 
     flags = hdr_tup[3]
 
@@ -182,7 +182,7 @@ def pretty_print_challenge(st):
         output = "Target: [block] (%db @%d)" % (tgt.length, tgt.offset)
         if tgt.alloc != tgt.length:
             output += " alloc: %d" % tgt.alloc
-        print output
+        print(output)
 
         raw = tgt.raw
         pos = 0
@@ -193,22 +193,22 @@ def pretty_print_challenge(st):
             rec_type = target_field_types[rec_type_id]
             rec_sz = rec_hdr[1]
             subst = raw[pos+4 : pos+4+rec_sz]
-            print "    %s (%d): %s" % (rec_type, rec_type_id, subst)
+            print("    %s (%d): %s" % (rec_type, rec_type_id, subst))
             pos += 4 + rec_sz
 
     opt_inline_str("OS Ver", st, 48, 8)
 
-    print "Flags: 0x%x [%s]" % (flags, flags_str(flags))
+    print("Flags: 0x%x [%s]" % (flags, flags_str(flags)))
 
 
 def pretty_print_response(st):
     hdr_tup = struct.unpack("<hhihhihhihhihhi", st[12:52])
 
-    print "LM Resp: %s" % StrStruct(hdr_tup[0:3], st)
-    print "NTLM Resp: %s" % StrStruct(hdr_tup[3:6], st)
-    print "Target Name: %s" % StrStruct(hdr_tup[6:9], st)
-    print "User Name: %s" % StrStruct(hdr_tup[9:12], st)
-    print "Host Name: %s" % StrStruct(hdr_tup[12:15], st)
+    print("LM Resp: %s" % StrStruct(hdr_tup[0:3], st))
+    print("NTLM Resp: %s" % StrStruct(hdr_tup[3:6], st))
+    print("Target Name: %s" % StrStruct(hdr_tup[6:9], st))
+    print("User Name: %s" % StrStruct(hdr_tup[9:12], st))
+    print("Host Name: %s" % StrStruct(hdr_tup[12:15], st))
 
     opt_str_struct("Session Key", st, 52)
     opt_inline_str("OS Ver", st, 64, 8)
@@ -217,9 +217,9 @@ def pretty_print_response(st):
     if len(nxt) == 4:
         flg_tup = struct.unpack("<i", nxt)
         flags = flg_tup[0]
-        print "Flags: 0x%x [%s]" % (flags, flags_str(flags))
+        print("Flags: 0x%x [%s]" % (flags, flags_str(flags)))
     else:
-        print "Flags: [omitted]"
+        print("Flags: [omitted]")
 
 if __name__ == "__main__":
     main()
