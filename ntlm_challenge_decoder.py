@@ -108,9 +108,10 @@ target_field_types[5] = "Parent DNS domain"
 target_field_types[7] = "Server Timestamp"
 
 def main():
-    st_raw = sys.stdin.read()
+    st_raw = sys.argv[1]
     try:
         st = base64.b64decode(st_raw)
+        print(st)
     except e:
         print("Input is not a valid base64-encoded string")
         return
