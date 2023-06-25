@@ -118,6 +118,7 @@ def main():
         st = base64.b64decode(st_raw).decode('utf-8')
         print(st)
     except Exception as e:
+        print(e)
         print("Input is not a valid base64-encoded string")
         return
 
