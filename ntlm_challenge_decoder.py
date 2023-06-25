@@ -117,7 +117,7 @@ def main():
         print("Input is not a valid base64-encoded string")
         return
 
-    if st[:8] == "NTLMSSP\0":
+    if st[:8] == "NTLMSSP\x00":
         print("Found NTLMSSP header")
     else:
         print("NTLMSSP header not found at start of input string")
