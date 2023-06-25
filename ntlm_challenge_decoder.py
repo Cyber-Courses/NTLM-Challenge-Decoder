@@ -79,7 +79,7 @@ class StrStruct(object):
         self.utf16 = False
 
         if len(self.raw) >= 2 and self.raw[1] == '\0':
-            self.string = self.raw.decode('utf-16')
+            self.string = self.raw.decode('unicode_escape')
             self.utf16 = True
         else:
             self.string = self.raw
@@ -141,14 +141,14 @@ def opt_str_struct(name, st, offset):
     nxt = st[offset:offset+8]
     if len(nxt) == 8:
         hdr_tup = struct.unpack("<hhi", nxt)
-        print("%s: %s" % (name, StrStruct(hdr_tup, st.decode('unicode_escape'))))
+        print("%s: %s" % (name, StrStruct(hdr_tup, st)))
     else:
         print("%s: [omitted]" % name)
 
 def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
-        print("%s: '%s'" % (name, clean_str(nxt).decode('unicode_escape')))
+        print("%s: '%s'" % (name, clean_str(nxt)))
     else:
         print("%s: [omitted]" % name)
 
@@ -167,7 +167,7 @@ def pretty_print_request(st):
 def pretty_print_challenge(st):
     hdr_tup = struct.unpack("<hhiiQ", st[12:32])
 
-    print("Target Name: %s" % StrStruct(hdr_tup[0:3], st.decode('unicode_escape')))
+    print("Target Name: %s" % StrStruct(hdr_tup[0:3], st))
     print("Challenge: 0x%x" % hdr_tup[4])
 
     flags = hdr_tup[3]
@@ -204,11 +204,11 @@ def pretty_print_challenge(st):
 def pretty_print_response(st):
     hdr_tup = struct.unpack("<hhihhihhihhihhi", st[12:52])
 
-    print("LM Resp: %s" % StrStruct(hdr_tup[0:3], st.decode('unicode_escape')))
-    print("NTLM Resp: %s" % StrStruct(hdr_tup[3:6], st.decode('unicode_escape')))
-    print("Target Name: %s" % StrStruct(hdr_tup[6:9], st.decode('unicode_escape')))
-    print("User Name: %s" % StrStruct(hdr_tup[9:12], st.decode('unicode_escape')))
-    print("Host Name: %s" % StrStruct(hdr_tup[12:15], st.decode('unicode_escape')))
+    print("LM Resp: %s" % StrStruct(hdr_tup[0:3], st))
+    print("NTLM Resp: %s" % StrStruct(hdr_tup[3:6], st))
+    print("Target Name: %s" % StrStruct(hdr_tup[6:9], st))
+    print("User Name: %s" % StrStruct(hdr_tup[9:12], st))
+    print("Host Name: %s" % StrStruct(hdr_tup[12:15], st))
 
     opt_str_struct("Session Key", st, 52)
     opt_inline_str("OS Ver", st, 64, 8)
