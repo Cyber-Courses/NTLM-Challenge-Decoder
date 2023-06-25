@@ -5,7 +5,7 @@ Python script for decoding NTLM Challenge and retrieving metadata.
 
 ## Install
 ````bash
-git clone https://
+git clone https://github.com/Cyber-Courses/NTLM-Challenge-Decoder.git
 cd NTLM-Challenge-Decoder
 ````
 
