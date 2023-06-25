@@ -65,7 +65,7 @@ def flags_lst(flags):
 def flags_str(flags):
     return ', '.join('"%s"' % s for s in flags_lst(flags)) 
 
-VALID_CHRS = set(string.letters + string.digits + string.punctuation)
+VALID_CHRS = set(string.ascii_letters + string.digits + string.punctuation)
 def clean_str(st):
     return ''.join((s if s in VALID_CHRS else '?') for s in st)
 
