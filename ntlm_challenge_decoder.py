@@ -111,18 +111,12 @@ def main():
     st_raw = sys.stdin.read()
     print(st_raw)
     try:
-        st1 = base64.b64decode(st_raw)
-        print(st1)
-        st2 = base64.b64decode(st_raw).decode('ascii')
-        print(st2)
-        st = base64.b64decode(st_raw).decode('utf-8')
-        print(st)
+        st = base64.b64decode(st_raw)
     except Exception as e:
-        print(e)
         print("Input is not a valid base64-encoded string")
         return
 
-    if st[:8] == "NTLMSSP\0":
+    if st[:8] == b'NTLMSSP\x00':
         print("Found NTLMSSP header")
     else:
         print("NTLMSSP header not found at start of input string")
