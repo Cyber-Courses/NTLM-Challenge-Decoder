@@ -67,6 +67,7 @@ def flags_str(flags):
 
 VALID_CHRS = set(string.ascii_letters + string.digits + string.punctuation)
 def clean_str(st):
+    print(st.decode('unicode_escape')
     return ''.join((s if s in VALID_CHRS else '?') for s in st.decode('unicode_escape'))
 
 class StrStruct(object):
