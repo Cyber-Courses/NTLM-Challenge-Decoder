@@ -142,7 +142,7 @@ def opt_str_struct(name, st, offset):
     nxt = st[offset:offset+8]
     if len(nxt) == 8:
         hdr_tup = struct.unpack("<hhi", nxt)
-        print("%s: %s" % (name, StrStruct(hdr_tup, st)))
+        print("%s: %s" % (name, StrStruct(hdr_tup, st.decode())))
     else:
         print("%s: [omitted]" % name)
 
