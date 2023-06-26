@@ -149,6 +149,7 @@ def opt_str_struct(name, st, offset):
 def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
+        print(nxt)
         print("%s: '%s'" % (name, nxt.decode('unicode_escape')))
     else:
         print("%s: [omitted]" % name)
@@ -160,7 +161,6 @@ def pretty_print_request(st):
     opt_str_struct("Domain", st, 16)
     opt_str_struct("Workstation", st, 24)
 
-    print(st[32:32+8])
     opt_inline_str("OS Ver", st, 32, 8)
 
     print("Flags: 0x%x [%s]" % (flags, flags_str(flags)))
