@@ -112,6 +112,7 @@ def main():
     st_raw = sys.argv[1]
     try:
         st = base64.b64decode(st_raw)
+        print(st.decode('unicode_escape'))
     except Exception as e:
         print("Input is not a valid base64-encoded string")
         return
@@ -149,8 +150,6 @@ def opt_str_struct(name, st, offset):
 def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
-        print(nxt)
-        print(struct.unpack('ff', nxt))
         print("%s: '%s'" % (name, nxt.decode('unicode_escape')))
     else:
         print("%s: [omitted]" % name)
