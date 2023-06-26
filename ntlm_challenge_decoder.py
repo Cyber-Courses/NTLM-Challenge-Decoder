@@ -150,7 +150,7 @@ def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
         print(nxt)
-        print(struct.unpack('f', nxt))
+        print(struct.unpack('ff', nxt))
         print("%s: '%s'" % (name, nxt.decode('unicode_escape')))
     else:
         print("%s: [omitted]" % name)
