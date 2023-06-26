@@ -113,7 +113,7 @@ def main():
     try:
         st = base64.b64decode(st_raw)
         print(st)
-        print(st.decode('unicode_escape'))
+        print(st.decode('utf-16-le'))
     except Exception as e:
         print("Input is not a valid base64-encoded string")
         return
@@ -151,7 +151,7 @@ def opt_str_struct(name, st, offset):
 def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
-        print("%s: '%s'" % (name, struct.unpack('hh', nxt)))
+        print("%s: '%s'" % (name, struct.unpack('ii', nxt)))
     else:
         print("%s: [omitted]" % name)
 
