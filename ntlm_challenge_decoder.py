@@ -151,7 +151,7 @@ def opt_str_struct(name, st, offset):
 def opt_inline_str(name, st, offset, sz):
     nxt = st[offset:offset+sz]
     if len(nxt) == sz:
-        print("%s: '%s'" % (name, struct.unpack('ii', nxt)))
+        print("%s: '%s'" % (name, struct.unpack('II', nxt)))
     else:
         print("%s: [omitted]" % name)
 
