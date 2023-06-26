@@ -112,8 +112,6 @@ def main():
     st_raw = sys.argv[1]
     try:
         st = base64.b64decode(st_raw)
-        print(st)
-        print(st.decode('utf-16-le'))
     except Exception as e:
         print("Input is not a valid base64-encoded string")
         return
