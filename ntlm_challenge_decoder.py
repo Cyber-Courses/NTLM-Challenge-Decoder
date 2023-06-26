@@ -160,6 +160,7 @@ def pretty_print_request(st):
     opt_str_struct("Domain", st, 16)
     opt_str_struct("Workstation", st, 24)
 
+    print(st[32:32+8])
     opt_inline_str("OS Ver", st, 32, 8)
 
     print("Flags: 0x%x [%s]" % (flags, flags_str(flags)))
